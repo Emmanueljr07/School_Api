@@ -7,7 +7,6 @@ const db = require("./config/db");
 const port = 3100;
 
 //Connect to MongoDB
-db();
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");
@@ -30,7 +29,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-mongoose.connection.once("open", () => {
+db.once("open", () => {
   console.log("Connected to database");
   app.listen(port, () => {
     console.log(`Server listening on Port http://localhost:${port}`);

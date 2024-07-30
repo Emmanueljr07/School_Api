@@ -1,11 +1,11 @@
 const router = require("express").Router();
-// const UserController = require('../controller/user-controller');
+const UserController = require("../controller/user-controller");
 // const AccountController = require('../controller/account_controller');
 // const TransactionController = require('../controller/transaction-controller');
 // const BlocController = require('../controller/bloc-controller');
 
-// router.post('/registration', UserController.register);
-// router.post('/login', UserController.login);
+router.post("/registration", UserController.register);
+router.post("/login", UserController.login);
 // router.put('/update', UserController.update);
 // router.get('/logout', UserController.logout);
 // router.get('/getAllUsers', UserController.getAllUsers);
