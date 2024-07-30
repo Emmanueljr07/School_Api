@@ -1,12 +1,9 @@
-const { default: mongoose } = require("mongoose");
 const app = require("./app");
 const db = require("./config/db");
 // const UserModel = require('./model/user_model');
 // const createError = require("http-error");
 
 const port = 3100;
-
-//Connect to MongoDB
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");

@@ -1,6 +1,4 @@
 const UserService = require("../services/user-services");
-// const jwt = require("jsonwebtoken");
-// const UserModel = require("../model/user_model");
 
 exports.register = async (req, res, next) => {
   try {
