@@ -61,14 +61,14 @@ exports.login = async (req, res, next) => {
     const user = await UserService.checkuser(email);
 
     if (!user) {
-      return res.status(400).json({ message: "No user found" });
+      return res.status(404).json({ message: "No user found" });
       // throw new Error("User don't exist");
     }
 
     const isMatch = await user.comparePassword(password);
 
     if (isMatch === false) {
-      return res.status(400).json({ message: "Incorrect Password" });
+      return res.status(400).json({ message: "Invalid credentials" });
       // throw new Error("Invalid Password");
     }
 

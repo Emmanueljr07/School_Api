@@ -1,6 +1,8 @@
 const UserModel = require("../model/user_model");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "bjskjgnsrkgskgslgnklhslg93";
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 class UserService {
   static async registerUser(name, age, contact, email, password, role) {
@@ -55,13 +57,13 @@ class UserService {
   }
 
   static generateToken(tokenData) {
-    return jwt.sign(tokenData, JWT_SECRET, { expiresIn: "1d" });
+    return jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: "1d" });
     // {expiresIn:jwt_expire}
   }
 
   static checkToken(token) {
     try {
-      return jwt.verify(token, JWT_SECRET);
+      return jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
       return error;
     }

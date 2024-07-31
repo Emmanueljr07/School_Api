@@ -1,12 +1,13 @@
 const app = require("./app");
 const db = require("./config/db");
-// const UserModel = require('./model/user_model');
-// const createError = require("http-error");
+const dotenv = require("dotenv");
 
-const port = 3100;
+dotenv.config();
+
+const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.send("Hello World!!");
+  res.send("Welcome to my Api!");
 });
 
 app.use(async (req, res, next) => {
@@ -26,9 +27,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-db.once("open", () => {
-  console.log("Connected to database");
-  app.listen(port, () => {
-    console.log(`Server listening on Port http://localhost:${port}`);
-  });
-});
+const startServer = async () => {
+  try {
+    await db.once("open", () => {
+      console.log("Connected to database");
+      app.listen(port, () => {
+        console.log(`Server listening on Port http://localhost:${port}`);
+      });
+    });
+  } catch (error) {
+    console.log("Error starting server: ", error);
+  }
+};
+
+startServer();
