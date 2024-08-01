@@ -158,12 +158,24 @@ exports.getAllUsers = (req, res, next) => {
     if (!users) {
       return res.status(400).json({ message: "Could not get all users" });
     }
+
     users.then((result) => {
-      return res.status(200).send(result);
+      let allusers = result;
+      allusers.map((user) => {
+        let userData = {
+          id: user.id,
+          name: user.name,
+          age: user.age,
+          contact: user.contact,
+          email: user.email,
+          role: user.role,
+        };
+        return res.status(200).json({ success: true, result: [userData] });
+      });
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Server has a problem");
+    return res.status(500).send("Something went wrong!! Please try again");
   }
 };
 

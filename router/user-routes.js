@@ -8,9 +8,9 @@ const auth = require("../middleware/auth");
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.patch("/updateProfile", auth, UserController.updateProfile);
+router.get("/", auth, UserController.getAllUsers);
 // router.put('/update', UserController.update);
 // router.get('/logout', UserController.logout);
-// router.get('/getAllUsers', UserController.getAllUsers);
 // // router.get('/demousers', UserController.demousers);
 
 // // CRUD WITH Account

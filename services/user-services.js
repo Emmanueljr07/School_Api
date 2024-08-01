@@ -32,12 +32,6 @@ class UserService {
   static getAllUsers() {
     try {
       return UserModel.find();
-      // UserModel.find().then((result) => {
-      //     res.status(200).send(result);
-      // }).catch((err) => {
-      //     console.log(err)
-      //     return res.status(500).send("Not Authorized");
-      // });
     } catch (error) {
       console.log(error);
       throw error;
