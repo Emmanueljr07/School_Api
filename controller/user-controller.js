@@ -167,19 +167,27 @@ exports.getAllUsers = (req, res, next) => {
   }
 };
 
-// exports.demousers = (req, res, next) => {
-//     try {
-//         const users = UserModel.find();
-//         if(!users) {
-//             return res.status(400).json({message: "Could not get all users"});
-//         }
-//         users.then((result) => {
-//             return res.status(200).send(result);
-//         })
-//     } catch (error) {
-//       res.status(500).send("Server error")
-//     }
-// }
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(400).json({ message: "Could not get all updatedUser" });
+    }
+    const { _id: id, name, age, contact, email, role } = updatedUser;
+
+    let token = await UserService.generateToken(updatedUser);
+
+    return res
+      .status(200)
+      .json({ success: true, id, name, age, contact, email, role, token });
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+};
 
 exports.logout = async (req, res, next) => {
   try {

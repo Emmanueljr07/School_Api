@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const UserController = require("../controller/user-controller");
+const auth = require("../middleware/auth");
 // const AccountController = require('../controller/account_controller');
 // const TransactionController = require('../controller/transaction-controller');
 // const BlocController = require('../controller/bloc-controller');
 
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
+router.patch("/updateProfile", auth, UserController.updateProfile);
 // router.put('/update', UserController.update);
 // router.get('/logout', UserController.logout);
 // router.get('/getAllUsers', UserController.getAllUsers);
