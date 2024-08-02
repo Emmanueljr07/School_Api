@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const db = require("../config/db");
-const bcrypt = require("bcrypt");
 
 const { Schema } = mongoose;
 
@@ -32,9 +31,7 @@ const studentSchema = new Schema({
   },
   parentName: {
     type: String,
-    lowercase: true,
     required: true,
-    unique: true,
   },
   contact: {
     type: String,
