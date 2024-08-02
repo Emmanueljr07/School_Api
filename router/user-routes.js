@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 // const TransactionController = require('../controller/transaction-controller');
 // const BlocController = require('../controller/bloc-controller');
 
-router.post("/register", UserController.register);
+router.post("/register", auth, UserController.register);
 router.post("/login", UserController.login);
 router.patch("/updateProfile", auth, UserController.updateProfile);
 router.get("/", auth, UserController.getAllUsers);

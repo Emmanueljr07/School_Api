@@ -31,7 +31,7 @@ class UserService {
 
   static async getAllUsers() {
     try {
-      return await UserModel.find().sort({ _id: -1 });
+      return await UserModel.find().sort({ _id: -1 }).select("-password");
     } catch (error) {
       console.log(error);
       throw error;

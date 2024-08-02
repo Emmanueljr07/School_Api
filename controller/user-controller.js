@@ -164,18 +164,7 @@ exports.getAllUsers = async (req, res, next) => {
     if (!users) {
       return res.status(400).json({ message: "Could not get all users" });
     }
-    let allusers = users;
-    allusers.map((user) => {
-      let userData = {
-        id: user.id,
-        name: user.name,
-        age: user.age,
-        contact: user.contact,
-        email: user.email,
-        role: user.role,
-      };
-      return res.status(200).json({ success: true, result: [userData] });
-    });
+    return res.status(200).json({ success: true, result: users });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Something went wrong!! Please try again");
