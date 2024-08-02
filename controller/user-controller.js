@@ -1,3 +1,4 @@
+const UserModel = require("../model/user_model");
 const UserService = require("../services/user-services");
 
 exports.register = async (req, res, next) => {
