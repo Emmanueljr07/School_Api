@@ -29,9 +29,9 @@ class UserService {
     }
   }
 
-  static getAllUsers() {
+  static async getAllUsers() {
     try {
-      return UserModel.find();
+      return await UserModel.find().sort({ _id: -1 });
     } catch (error) {
       console.log(error);
       throw error;

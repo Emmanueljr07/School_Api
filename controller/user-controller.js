@@ -37,14 +37,16 @@ exports.register = async (req, res, next) => {
       const token = await UserService.generateToken(tokenData);
 
       res.status(200).json({
-        id: userData.id,
-        name: userData.name,
-        age: userData.age,
-        contact: userData.contact,
-        email: userData.email,
-        role: userData.role,
-        token,
         success: true,
+        result: {
+          id: userData.id,
+          name: userData.name,
+          age: userData.age,
+          contact: userData.contact,
+          email: userData.email,
+          role: userData.role,
+          token,
+        },
       });
     }
   } catch (error) {
@@ -86,14 +88,16 @@ exports.login = async (req, res, next) => {
     let token = await UserService.generateToken(tokenData);
 
     res.status(200).json({
-      id: userData._id,
-      name: userData.name,
-      age: userData.age,
-      contact: userData.contact,
-      email: userData.email,
-      role: userData.role,
-      token: token,
       success: true,
+      result: {
+        id: userData._id,
+        name: userData.name,
+        age: userData.age,
+        contact: userData.contact,
+        email: userData.email,
+        role: userData.role,
+        token: token,
+      },
     });
   } catch (error) {
     console.log(error.message);
@@ -133,14 +137,16 @@ exports.update = async (req, res, next) => {
       };
 
       res.status(200).json({
-        id: userData._id,
-        name: userData.name,
-        age: userData.age,
-        contact: userData.contact,
-        email: userData.email,
-        role: userData.role,
-        token: token,
         success: true,
+        result: {
+          id: userData._id,
+          name: userData.name,
+          age: userData.age,
+          contact: userData.contact,
+          email: userData.email,
+          role: userData.role,
+          token: token,
+        },
       });
     } else if (update.modifiedCount == 0 && update.matchedCount == 1) {
       return res.status(201).json({ message: "Nothing was updated" });
@@ -152,26 +158,23 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.getAllUsers = (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = UserService.getAllUsers();
+    const users = await UserService.getAllUsers();
     if (!users) {
       return res.status(400).json({ message: "Could not get all users" });
     }
-
-    users.then((result) => {
-      let allusers = result;
-      allusers.map((user) => {
-        let userData = {
-          id: user.id,
-          name: user.name,
-          age: user.age,
-          contact: user.contact,
-          email: user.email,
-          role: user.role,
-        };
-        return res.status(200).json({ success: true, result: [userData] });
-      });
+    let allusers = users;
+    allusers.map((user) => {
+      let userData = {
+        id: user.id,
+        name: user.name,
+        age: user.age,
+        contact: user.contact,
+        email: user.email,
+        role: user.role,
+      };
+      return res.status(200).json({ success: true, result: [userData] });
     });
   } catch (error) {
     console.log(error);
