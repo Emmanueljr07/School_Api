@@ -3,18 +3,25 @@ const ClassModel = require("../model/class-model");
 class ClassService {
   static async createClass(name) {
     try {
-      const createUser = new ClassModel({
+      const newClass = new ClassModel({
         name,
       });
-      return await createUser.save();
+      return await newClass.save();
     } catch (err) {
       throw err;
     }
   }
 
-  static checkClass(name) {
+  static async checkClass(name) {
     try {
-      return ClassModel.findOne({ name });
+      return await ClassModel.findOne({ name });
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async checkClassById(_id) {
+    try {
+      return await ClassModel.findOne({ _id });
     } catch (error) {
       throw error;
     }

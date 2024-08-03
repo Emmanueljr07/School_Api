@@ -8,7 +8,7 @@ const subjectSchema = new Schema({
     type: String,
     required: true,
   },
-  className: {
+  subjectClass: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "class",
     required: true,
