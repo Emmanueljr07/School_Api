@@ -4,11 +4,7 @@ const db = require("../config/db");
 const { Schema } = mongoose;
 
 const studentSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
+  name: {
     type: String,
     required: true,
   },

@@ -1,4 +1,3 @@
-const { all } = require("../router/subject-routes");
 const ClassService = require("../services/class-services");
 const SubjectService = require("../services/subject-services");
 
@@ -41,7 +40,7 @@ exports.getAllSubjects = async (req, res, next) => {
     const allSubjects = await SubjectService.getSubjects();
 
     if (!allSubjects) {
-      return res.status(400).json({ message: "Could not get all Classes" });
+      return res.status(400).json({ message: "Could not get all Subjects" });
     }
     return res.status(200).json({ success: true, result: allSubjects });
   } catch (error) {
