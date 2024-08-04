@@ -31,7 +31,9 @@ class SubjectService {
 
   static async getSubjects() {
     try {
-      return await SubjectModel.find().sort({ _id: -1 });
+      return await SubjectModel.find()
+        .populate("subjectClass")
+        .sort({ _id: -1 });
     } catch (error) {
       console.log(error);
       throw error;

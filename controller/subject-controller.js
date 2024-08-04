@@ -39,13 +39,7 @@ exports.create = async (req, res, next) => {
 exports.getAllSubjects = async (req, res, next) => {
   try {
     const allSubjects = await SubjectService.getSubjects();
-    allSubjects.map(async (subject) => {
-      let sclass = await ClassService.checkClassById(subject.subjectClass);
-      subject.subjectClass = sclass.name;
-      console.log(sclass.name);
-      console.log(subject.subjectClass);
-      allSubjects.push(sclass.name);
-    });
+
     if (!allSubjects) {
       return res.status(400).json({ message: "Could not get all Classes" });
     }
