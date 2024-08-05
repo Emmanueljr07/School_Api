@@ -79,11 +79,11 @@ exports.updateStudent = async (req, res, next) => {
         .status(400)
         .json({ message: "Could not update Student Record" });
     } else if (update.modifiedCount == 1 && update.matchedCount == 1) {
-      const updatedSubject = await StudentService.checkSubjectById(id);
+      const updatedStudent = await StudentService.checkStudent(name);
 
       res.status(200).json({
         success: true,
-        result: updatedSubject,
+        result: updatedStudent,
       });
     } else if (update.modifiedCount == 0 && update.matchedCount == 1) {
       return res.status(201).json({ message: "Nothing was updated" });

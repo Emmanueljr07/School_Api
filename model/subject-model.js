@@ -7,6 +7,7 @@ const subjectSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   subjectClass: {
     type: mongoose.Schema.Types.ObjectId,

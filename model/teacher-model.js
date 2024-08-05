@@ -16,11 +16,6 @@ const teacherSchema = new Schema({
       required: true,
     },
   ],
-  teacherClass: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "class",
-    required: true,
-  },
   gender: {
     type: String,
     required: true,

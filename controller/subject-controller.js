@@ -8,7 +8,7 @@ exports.create = async (req, res, next) => {
     let oldSubject = await SubjectService.checkSubject(name);
 
     if (oldSubject) {
-      return res.status(400).json({ message: "Subject Already Exist" });
+      return res.status(400).json({ message: "Subject Name Already Exist" });
     } else {
       let sClass = await ClassService.checkClass(subjectClass);
       if (!sClass) {
