@@ -1,4 +1,3 @@
-// const ClassService = require("../services/class-services");
 const ExamService = require("../services/exam-services");
 
 exports.create = async (req, res, next) => {

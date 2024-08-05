@@ -1,5 +1,6 @@
 const ClassService = require("../services/class-services");
 const StudentService = require("../services/student-services");
+const PaymentController = require("./payment-controller");
 
 exports.register = async (req, res, next) => {
   try {
@@ -33,14 +34,27 @@ exports.register = async (req, res, next) => {
         address
       );
 
-      res.status(200).json({
-        success: true,
-        result: {
-          id: newStudent.id,
-          name: newStudent.name,
-          studentClass: sClass.name,
-        },
-      });
+      const studentPayment = await PaymentController.makePayment(
+        newStudent,
+        0,
+        "Unpaid"
+      );
+      if (!studentPayment) {
+        return res.status(400).json({ message: "Could not register Student" });
+      } else if (studentPayment) {
+        res.status(200).json({
+          success: true,
+          result: {
+            id: newStudent.id,
+            name: newStudent.name,
+            studentClass: sClass.name,
+          },
+        });
+      } else {
+        return res
+          .status(404)
+          .send({ message: "Something Occured, Try again Later!!" });
+      }
     }
   } catch (error) {
     console.log(error.message);
