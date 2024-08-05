@@ -7,9 +7,10 @@ const examSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
 });
