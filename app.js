@@ -7,6 +7,7 @@ const studentRouter = require("./router/student-routes");
 const teacherRouter = require("./router/teacher-routes");
 const examRouter = require("./router/exam-routes");
 const paymentRouter = require("./router/payment-routes");
+const resultRouter = require("./router/examResult-routes");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
@@ -27,5 +28,6 @@ app.use("/student", studentRouter);
 app.use("/teacher", teacherRouter);
 app.use("/exam", examRouter);
 app.use("/fee", paymentRouter);
+app.use("/result", resultRouter);
 
 module.exports = app;
