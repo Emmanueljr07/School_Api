@@ -110,43 +110,22 @@ exports.login = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { token, email } = req.body;
+  const { name, role } = req.body;
   try {
-    const user = UserService.checkToken(token);
-    // console.log("------------",user);
-
-    if (
-      user == "JsonWebTokenError: invalid signature" ||
-      user == "JsonWebTokenError: token expired"
-    ) {
-      return res.send({ status: "error", data: "something wrong with token" });
-    }
-    const useremail = user.email;
-    const userid = user._id;
-    const update = await UserService.updateUser(userid, email);
+    const update = await UserService.updateUser(req.params.id, name, role);
 
     if (update.modifiedCount == 1 && update.matchedCount == 1) {
-      const user = await UserService.checkuser(useremail);
-
-      let userData = {
-        _id: user._id,
-        name: user.name,
-        age: user.age,
-        contact: user.contact,
-        email: user.email,
-        role: user.role,
-      };
+      let user = await UserModel.findById(req.params.id);
 
       res.status(200).json({
         success: true,
         result: {
-          id: userData._id,
-          name: userData.name,
-          age: userData.age,
-          contact: userData.contact,
-          email: userData.email,
-          role: userData.role,
-          token: token,
+          id: user._id,
+          name: user.name,
+          age: user.age,
+          contact: user.contact,
+          email: user.email,
+          role: user.role,
         },
       });
     } else if (update.modifiedCount == 0 && update.matchedCount == 1) {
@@ -175,22 +154,54 @@ exports.getAllUsers = async (req, res, next) => {
 exports.updateProfile = async (req, res, next) => {
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       req.body,
       { new: true }
     );
     if (!updatedUser) {
-      return res.status(400).json({ message: "Could not get all updatedUser" });
+      return res.status(400).json({ message: "Could not update Profile" });
     }
-    const { _id: id, name, age, contact, email, role } = updatedUser;
 
-    let token = await UserService.generateToken(updatedUser);
+    let tokenData = { _id: updatedUser._id, email: updatedUser.email };
 
-    return res
-      .status(200)
-      .json({ success: true, id, name, age, contact, email, role, token });
+    let userData = {
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      age: updatedUser.age,
+      contact: updatedUser.contact,
+      email: updatedUser.email,
+      role: updatedUser.role,
+    };
+
+    let token = UserService.generateToken(tokenData);
+
+    res.status(200).json({
+      success: true,
+      result: {
+        id: userData._id,
+        name: userData.name,
+        age: userData.age,
+        contact: userData.contact,
+        email: userData.email,
+        role: userData.role,
+        token: token,
+      },
+    });
   } catch (error) {
     res.status(500).send("Server error");
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await UserService.deleteUser(req.params.id);
+    if (!deletedUser) {
+      return res.status(400).json({ message: "Could not delete User" });
+    }
+    return res.status(200).json({ success: true, result: deletedUser });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Something went wrong!! Please try again");
   }
 };
 

@@ -13,8 +13,8 @@ const auth = async (req, res, next) => {
     if (decoded == "TokenExpiredError: jwt expired") {
       return res.status(404).send({ status: "error", data: "token expired" });
     }
-    const { id, email } = decoded;
-    req.user = { id, email };
+    const { _id, email } = decoded;
+    req.user = { _id, email };
     next();
   } catch (error) {
     console.log(error.message);

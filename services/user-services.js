@@ -38,13 +38,21 @@ class UserService {
     }
   }
 
-  static async updateUser(id, email) {
+  static async updateUser(id, name, role) {
     try {
-      const updateUser = UserModel.updateOne(
+      const updateUser = UserModel.updateMany(
         { _id: id },
-        { $set: { email: email } }
+        { $set: { name: name, role: role } }
       );
       return await updateUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async deleteUser(id) {
+    try {
+      return await UserModel.findByIdAndDelete({ _id: id });
     } catch (error) {
       throw error;
     }

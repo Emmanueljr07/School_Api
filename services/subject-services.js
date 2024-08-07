@@ -39,6 +39,16 @@ class SubjectService {
       throw error;
     }
   }
+  static async getSubjectsByClass(subjectClass) {
+    try {
+      return await SubjectModel.find({ subjectClass: subjectClass })
+        .populate("subjectClass")
+        .sort({ _id: -1 });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 
   static async updateSubject(id, name, subjectClass) {
     try {

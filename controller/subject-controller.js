@@ -49,6 +49,24 @@ exports.getAllSubjects = async (req, res, next) => {
   }
 };
 
+exports.getSubjectsByClass = async (req, res, next) => {
+  try {
+    const subjectClass = req.params.classname;
+    const sClass = await ClassService.checkClass(subjectClass);
+    const allSubjectsInClass = await SubjectService.getSubjectsByClass(sClass);
+
+    if (!allSubjectsInClass) {
+      return res
+        .status(400)
+        .json({ message: "Could not get all Subjects In Class" });
+    }
+    return res.status(200).json({ success: true, result: allSubjectsInClass });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Something went wrong!! Please try again");
+  }
+};
+
 exports.updateSubject = async (req, res, next) => {
   try {
     const { id, name, subjectClass } = req.body;

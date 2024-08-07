@@ -75,17 +75,17 @@ class ExamResultService {
     }
   }
 
-  // static async updateStudentExamResult(student, subjectName, marks, exam) {
-  //   try {
-  //     const updateStudentExamResult = ExamResultModel.updateMany(
-  //       { student: student },
-  //       { $set: { subjectName: subjectName, marks: marks, exam: exam } }
-  //     );
-  //     return await updateStudentExamResult;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  static async updateResult(student, subjectName, marks, exam) {
+    try {
+      const updatedResult = ExamResultModel.updateMany(
+        { student: student },
+        { $set: { subjectName: subjectName, marks: marks, exam: exam } }
+      );
+      return await updatedResult;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async deleteStudentExamRecord(id) {
     try {

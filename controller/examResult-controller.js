@@ -47,8 +47,27 @@ exports.updateStudentExamResult = async (req, res, next) => {
         },
       });
     } else {
-      for (let i = 0; i < oldResult.length; i++) {
-        oldResult[i].marks = marks;
+      const updatedResult = await ExamResultService.updateResult(
+        existingStudent,
+        existingSubject,
+        marks,
+        existingExam
+      );
+      if (!updatedResult) {
+        return res
+          .status(400)
+          .json({ message: "Could not update student Exam Results" });
+      } else {
+        res.status(200).json({
+          success: true,
+          result: {
+            id: updatedResult.id,
+            student: updatedResult.student,
+            subjectName: updatedResult.subjectName,
+            marks: updatedResult.marks,
+            exam: updatedResult.exam,
+          },
+        });
       }
     }
   } catch (error) {
