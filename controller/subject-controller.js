@@ -70,8 +70,12 @@ exports.getSubjectsByClass = async (req, res, next) => {
 exports.updateSubject = async (req, res, next) => {
   try {
     const { id, name, subjectClass } = req.body;
+    let sClass = await ClassService.checkClass(subjectClass);
+    if (!sClass) {
+      return res.status(400).json({ message: "Class does not exist" });
+    }
 
-    const update = await SubjectService.updateSubject(id, name, subjectClass);
+    const update = await SubjectService.updateSubject(id, name, sClass);
     if (!update) {
       return res.status(400).json({ message: "Could not update Subject" });
     } else if (update.modifiedCount == 1 && update.matchedCount == 1) {

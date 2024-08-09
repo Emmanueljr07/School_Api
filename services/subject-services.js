@@ -50,11 +50,11 @@ class SubjectService {
     }
   }
 
-  static async updateSubject(id, name, subjectClass) {
+  static async updateSubject(id, name, sClass) {
     try {
       const updateSubject = SubjectModel.updateMany(
         { _id: id },
-        { $set: { name: name, subjectClass: subjectClass } }
+        { $set: { name: name, subjectClass: sClass } }
       );
       return await updateSubject;
     } catch (error) {
