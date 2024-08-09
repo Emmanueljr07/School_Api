@@ -31,7 +31,10 @@ class ExamResultService {
 
   static checkStudentResult(student) {
     try {
-      return ExamResultModel.findOne({ student });
+      return ExamResultModel.find({ student: student })
+        .populate("subjectName")
+        .populate("exam")
+        .sort({ _id: -1 });
     } catch (error) {
       throw error;
     }

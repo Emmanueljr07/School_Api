@@ -2,6 +2,7 @@ const ExamResultService = require("../services/examResult-services");
 const StudentService = require("../services/student-services");
 const SubjectService = require("../services/subject-services");
 const ExamService = require("../services/exam-services");
+const StudentModel = require("../model/student-model");
 
 exports.updateStudentExamResult = async (req, res, next) => {
   try {
@@ -107,6 +108,20 @@ exports.getAllResultsByExam = async (req, res, next) => {
         .json({ message: "Could not get all Results of Exam" });
     }
     return res.status(200).json({ success: true, result: allResultsByExam });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Something went wrong!! Please try again");
+  }
+};
+
+exports.myExamResults = async (req, res, next) => {
+  try {
+    const student = await StudentModel.findById({ _id: req.params.id });
+    const myResults = await ExamResultService.checkStudentResult(student);
+    if (!myResults) {
+      return res.status(400).json({ message: "Could not get your results" });
+    }
+    return res.status(200).json({ success: true, result: myResults });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Something went wrong!! Please try again");
