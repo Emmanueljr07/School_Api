@@ -50,11 +50,32 @@ class TeacherService {
     }
   }
 
-  static async updateTeacher(id, name, teacherSubjects) {
+  static async updateTeacher(
+    id,
+    name,
+    tSubjects,
+    gender,
+    age,
+    email,
+    // password,
+    contact,
+    address
+  ) {
     try {
       const updateTeacher = TeacherModel.updateMany(
         { _id: id },
-        { $set: { name: name, teacherSubjects: teacherSubjects } }
+        {
+          $set: {
+            name: name,
+            teacherSubjects: tSubjects,
+            gender: gender,
+            age: age,
+            email: email,
+            // password: password,
+            contact: contact,
+            address: address,
+          },
+        }
       );
       return await updateTeacher;
     } catch (error) {

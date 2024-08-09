@@ -1,3 +1,4 @@
+const TeacherModel = require("../model/teacher-model");
 const SubjectService = require("../services/subject-services");
 const TeacherService = require("../services/teacher-services");
 const UserService = require("../services/user-services");
@@ -144,29 +145,54 @@ exports.getAllTeachers = async (req, res, next) => {
 
 exports.updateTeacher = async (req, res, next) => {
   try {
-    const { id, name, teacherSubjects } = req.body;
-    let tSubject = await SubjectService.checkClass(teacherSubjects);
-    if (!tSubject) {
-      return res.status(400).json({ message: "Subject does not exist" });
+    const {
+      id,
+      name,
+      teacherSubjects,
+      gender,
+      age,
+      email,
+      // password,
+      contact,
+      address,
+    } = req.body;
+
+    let tSubjects = [];
+    for (let i = 0; i < teacherSubjects.length; i++) {
+      let subjects = await SubjectService.checkSubject(teacherSubjects[i]);
+      if (!subjects) {
+        return res.status(400).json({ message: "Subject does not exist" });
+      }
+      tSubjects.push(subjects);
     }
 
-    const update = await TeacherService.updateTeacher(id, name, tSubject);
+    const update = await TeacherService.updateTeacher(
+      id,
+      name,
+      tSubjects,
+      gender,
+      age,
+      email,
+      // password,
+      contact,
+      address
+    );
     if (!update) {
       return res
         .status(400)
         .json({ message: "Could not update Teacher Record" });
-    } else if (update.modifiedCount == 1 && update.matchedCount == 1) {
-      const updatedSubject = await TeacherService.checkSubjectById(id);
+    } else if (update.modifiedCount === 1 && update.matchedCount === 1) {
+      const updatedTeacher = await TeacherModel.findById({ _id: id });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
-        result: updatedSubject,
+        result: updatedTeacher,
       });
-    } else if (update.modifiedCount == 0 && update.matchedCount == 1) {
+    } else if (update.modifiedCount === 0 && update.matchedCount === 1) {
       return res.status(201).json({ message: "Nothing was updated" });
     } else {
       return res
-        .status(404)
+        .status(400)
         .send({ message: "Something Occured, Try again Later!!" });
     }
   } catch (error) {
